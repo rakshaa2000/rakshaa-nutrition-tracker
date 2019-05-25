@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Nutrition Tracker</title>
+</head>
+<body background="pp.jpg" text="white" leftmargin=150px >
+<h1 align= "center"><font color="white" face="Georgia"><font size=7 color="#AFEEEE"><b><i>C</i></b></font>alorie <b><i><font size=7 color="#AFEEEE">C</font></i></b>ounter</font></h1>
+<img src="gp1.jpg" align="right" style="width:400px;height:300px;" alt="A Balanced Diet" title="A balanced diet">
+<b><font face="Ink Free" size=4 color="#42f4d9">
+<div class='details'>
+<form id='nameForm'>
+<div class='form-uname'>
+	<label id='nameLabel' for='nameField'>Enter name:</label>
+	<input id='nameField' type='text' maxlength='25' onblur="checkInp5();"></input>
+</div>
+<div class='form-ugen'>
+	<label id='genLabel' for='genField'>Gender:</label>
+	<input id='gen1' type='radio' value="Male" name="gen" checked>Male</input>
+	<input id='gen2' type='radio' value="Female" name="gen">Female</input>
+</div>
+<div class='age'>
+	<label id='ageLabel' for='ageField'>Enter Age:</label>
+	<input id='ageField' type='text' maxlength='4' onblur="checkInp4();"></input>
+</div>
+<div>
+	<label id='exLabel' for='exField'>How much do you excercise:</label><br>
+	<input id='ex1' type='radio' value='Low' name="ex" checked>Low (1-3 times a week)</input><br>
+	<input id='ex2' type='radio' value='Medium' name="ex">Medium (4-7 times a week)</input><br>
+	<input id='ex3' type='radio' value='High' name="ex">High (Laborious and Intense)</input>
+</div>
+<div class='height'>
+	<label id='heightLabel' for='heightField'>Enter height in metres:</label>
+	<input id='heightField' type='text' maxlength='4' onblur="checkInp1();"></input>
+</div>
+<div class='weight'>
+	<label id='weightLabel' for='weightField'>Enter weight in kgs:</label>
+	<input id='weightField' type='text' maxlength='4' onchange="checkInp2();"></input>
+</div>
+<div class='cal'>
+	<label id='calLabel' for='calField'>Enter Calorie Limit:</label>
+	<input id='calField' type='text' maxlength='6' onblur="checkInp3();"></input>
+</div>
+</font></b>
+<i><font face="Georgia" size=4.5>
+<b><p id='of'></p>
+<p id='rec1'></p></b>
+<p id='ol'></p>
+</font></i>
+</form>
+<table id="myTable" border=10px >
+        <th>Food</th>
+        <th>Fats in Grams</th>
+        <th>Carbs in Grams</th>
+	<th>Proteins in Grams</th>
+        <th>Add</th>
+        <tr>
+            <td><input type="text" id="Food" name="Food" /></td>
+            <td><input type="text" id="Fats" name="Fats"/></td>
+            <td><input type="text" id="Carbs" name="Carbs"/></td>
+            <td><input type="text" id="Proteins" name="Proteins"/></td>
+            <td id="btnAdd" onclick="insertRow();"><button>Add</button></td>
+        </tr>
+</table>
+<button onclick="calsum();">Done</button>
+<i><font face="Georgia" size=5>
+<p id='p1'></p>
+<p id='comp'></p>
+<p id='last'></p></font></i>
+<script type="text/javascript">
+var limit;
+function checkInp1()
+{
+  var x= heightField.value;
+  if(heightField.value=="")
+    alert("Enter height please");
+  else if (isNaN(x)) 
+  {
+    alert("Height should be a number");
+    
+  }
+	
+}
+function checkInp2()
+{
+  var x= weightField.value;
+  if(weightField.value=="")
+	alert("Enter weight please");
+  else if (isNaN(x)) 
+  {
+    alert("Weight should be a number");
+    
+  }
+functionTwo();
+		
+}
+function checkInp3()
+{
+  var x= calField.value;
+  if(calField.value=="")
+    alert("Enter calories please");
+  else if (isNaN(x))  
+  {
+    alert("Calories should be a number");
+    
+  }
+ 	
+}
+function checkInp4()
+{
+  var x= ageField.value;
+  if(ageField.value=="")
+   alert("Enter age please");
+  else if (isNaN(x))  
+  {
+    alert("Age should be a number");
+    
+  }
+	
+	
+}
+function checkInp5()
+{
+    var x=nameField.value;
+	if(x=="")
+	alert("Enter name please");
+}
+function functionTwo()
+{
+	if ((heightField.value!="")&&(weightField.value!="")&&(ageField.value!=""))
+	{
+	var bmi= weightField.value/(heightField.value*heightField.value);
+	bmi=bmi.toFixed(2);
+	limit=calField.value;
+		if(bmi<18.5)
+			{var n1=document.getElementById('of');
+			n1.innerText="You are underweight  :( and your BMI is "+bmi+" kg/m2";
+			}
+		else if(bmi>30)
+			{var n1=document.getElementById('of');
+			n1.innerText="You are obese  :( and your BMI is "+bmi+" kg/m2";
+			}
+		else if(bmi>=18.5&&bmi<25)
+			{var n1=document.getElementById('of');
+			n1.innerText="You are healthy  :) and your BMI is "+bmi+" kg/m2";
+			}
+		else
+			{var n1=document.getElementById('of');
+			n1.innerText="You are overweight  :( and your BMI is "+bmi+" kg/m2";
+			}
+	if(document.getElementById("gen1").checked)
+		var bmr=13.397*weightField.value+479.9*heightField.value-5.677*ageField.value+88.362;
+	else
+		var bmr=9.247*weightField.value+309.8*heightField.value-4.330*ageField.value+447.593;
+	var rec;
+	if(document.getElementById("ex1").checked)
+		rec=bmr*1.2;
+	else if(document.getElementById("ex2").checked)
+		rec=bmr*1.5;
+	else
+		rec=bmr*1.9;
+	var reco= document.getElementById("rec1");
+	reco.innerText="Recommended Calorie intake is "+rec.toFixed(2)+" cals and your BMR is "+bmr.toFixed(2)+" cals";
+	}
+	var tx=document.getElementById('ol');
+	ol.innerText="Please set the daily calorie limit in the above field";
+		
+}var index = 1;
+function insertRow(){
+    if(index<15)
+   {  var table=document.getElementById("myTable");
+            var row=table.insertRow(table.rows.length);
+            var cell1=row.insertCell(0);
+            var t1=document.createElement("input");
+                t1.id = "Food"+index;
+		t1.name= "Food";
+                cell1.appendChild(t1);
+            var cell2=row.insertCell(1);
+            var t2=document.createElement("input");
+                t2.id = "Fats"+index;
+		t2.name= "Fats";
+                cell2.appendChild(t2);
+            var cell3=row.insertCell(2);
+            var t3=document.createElement("input");
+                t3.id = "Carbs"+index;
+		t3.name="Carbs";
+                cell3.appendChild(t3);
+	    var cell4=row.insertCell(3);
+	    var t4=document.createElement("input");
+                t4.id = "Proteins"+index;
+		t4.name="Proteins";
+                cell4.appendChild(t4);
+      index++;}
+	else
+	{
+	   var lim=document.getElementById("last");
+	   lim.innerText="Too many items :( Take care";
+	}
+}
+var tot=0;
+function calsum(){
+    tot=0;
+    var arr = document.getElementsByName('Carbs');
+    for(var i=0;i<arr.length;i++){
+        if(parseInt(arr[i].value))
+            tot += 4*parseInt(arr[i].value);
+	}
+    var arr1 = document.getElementsByName('Fats');
+    for(var i=0;i<arr1.length;i++){
+        if(parseInt(arr1[i].value))
+            tot += 9*parseInt(arr1[i].value);
+    }
+    var arr2 = document.getElementsByName('Proteins');
+    for(var i=0;i<arr2.length;i++){
+        if(parseInt(arr2[i].value))
+            tot += 4*parseInt(arr2[i].value);
+    }
+var p=document.getElementById('p1');
+p.innerText='Calories: '+tot+' cals';
+var com=document.getElementById('comp');
+com.innerText=(tot>calField.value)?'You are eating in excess than your daily limit':(tot<calField.value)?'You are eating less than your daily limit':'You are eating just right :)';
+}
+</script>
+</font>
+</body>
+</html>
